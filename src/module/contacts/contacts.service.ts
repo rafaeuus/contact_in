@@ -53,6 +53,18 @@ export class ContactsService {
       throw new NotFoundException('Contact not found');
     }
 
+    const findContactEmail = updateContactDto.email
+      ? await this.contactRepository.findByEmail(updateContactDto.email, userId)
+      : false;
+
+    const findContactPhone = updateContactDto.phone
+      ? await this.contactRepository.finbByPhone(updateContactDto.phone, userId)
+      : false;
+
+    if (findContactEmail || findContactPhone) {
+      throw new ConflictException('Contact already exist');
+    }
+
     const updatedContact = await this.contactRepository.update(
       id,
       updateContactDto,

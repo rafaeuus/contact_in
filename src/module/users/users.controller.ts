@@ -32,6 +32,13 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
+  @Get('')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  findSelf(@Request() req) {
+    return this.usersService.findSelf(req.user.id);
+  }
+
   @Patch('')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
